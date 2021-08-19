@@ -1,0 +1,37 @@
+.boggleBoard {
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: center;
+}
+
+.boggleRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+}
+
+.cubeBlue {
+  color: blue;   
+}
+
+.cubeRed {
+  color: red;
+}
+
+.cubePurple {
+  color: purple;
+}
+
+.cube, .cubeBlue, .cubeRed, .cubePurple {
+  padding: 10px 25px 5px 25px;
+  border-radius: 5px;
+  border: black 2px solid;
+  margin: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 70px;
+  font-weight: bold;
+}
+
+

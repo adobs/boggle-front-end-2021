@@ -1,0 +1,14 @@
+.secondHint {
+  text-align: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.blueRedInput {
+  padding: 15px;
+}
+
+.redInput {
+  width: 300px;
+}

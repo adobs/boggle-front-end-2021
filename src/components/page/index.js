@@ -97,7 +97,7 @@ const Page = () => {
         const { hints } = data;
         setHints(hints);
       });
-  }, []);
+  }, [correctWords]);
 
   const toggleHintMode = () => {
     if (hintMode) {

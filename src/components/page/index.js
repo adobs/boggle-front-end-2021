@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
 import Boggle from '../boggle/index.js'
 import WordForm from '../wordForm/index.js';
@@ -86,7 +86,7 @@ const Page = () => {
     }
   }
 
-  const inHintMode = () => {
+  const inHintMode = useCallback(() => {
     fetch('http://localhost:5000/hint', {
       method: 'POST',
       body: JSON.stringify(correctWords),
@@ -96,8 +96,8 @@ const Page = () => {
       .then(data => {
         const { hints } = data;
         setHints(hints);
-      })
-  };
+      });
+  }, []);
 
   const toggleHintMode = () => {
     if (hintMode) {

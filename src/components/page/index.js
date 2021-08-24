@@ -21,10 +21,6 @@ const Page = () => {
   const [hints, setHints] = useState([]);
   const [hintMode, setHintMode] = useState(false);
   
-  useEffect(() => {
-    inHintMode();
-  }, [correctWords]);
-
   const onInputChange = (evt) => {
     const guess = evt.target.value;
     setGuess(guess);
@@ -155,10 +151,10 @@ const Page = () => {
     .catch(err => console.log('err ', err));
   }
 
-  // useEffect(() => {
-  //   console.log('rendering')
-  //   inHintMode()
-  // }, []);
+  useEffect(() => {
+    inHintMode();
+  // eslint-disable-next-line no-use-before-define
+  }, [correctWords, inHintMode]);
 
   return (
     <div className={s.page}>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import Boggle from '../boggle/index.js'
 import WordForm from '../wordForm/index.js';
@@ -17,7 +17,13 @@ const Page = () => {
   const [validation, setValidation] = useState('');
   const [correctWords, setCorrectWords] = useState([]);
   const [score, setScore] = useState(0);
-  const [showHint, setShowHint] = useState(false);
+  const [showSecondHint, setShowSecondHint] = useState(false);
+  const [hints, setHints] = useState([]);
+  const [hintMode, setHintMode] = useState(false);
+  
+  useEffect(() => {
+    inHintMode();
+  }, [correctWords]);
 
   const onInputChange = (evt) => {
     const guess = evt.target.value;
@@ -47,6 +53,10 @@ const Page = () => {
     return false;
   };
 
+  // useEffect(() => {
+
+  // }, [correctWords])
+
   const onSubmit = (evt) => {
     evt.preventDefault();
 
@@ -74,11 +84,35 @@ const Page = () => {
         setScore(score + points);
       })
       .catch(err => console.log('err ', err));
-
+        
     if (score === TOTAL_SCORE) {
-      setShowHint(true);
+      setShowSecondHint(true);
     }
   }
+
+  const inHintMode = () => {
+    fetch('http://localhost:5000/hint', {
+      method: 'POST',
+      body: JSON.stringify(correctWords),
+      mode: 'cors',
+    })
+      .then(resp => resp.json())
+      .then(data => {
+        const { hints } = data;
+        setHints(hints);
+      })
+  };
+
+  const toggleHintMode = () => {
+    if (hintMode) {
+      inHintMode();
+      setHintMode(false);
+      setHints([]);
+    }
+    else {
+      setHintMode(true);
+    }
+  };
 
   const onSecondHintSubmit = (evt, color) => {
     evt.preventDefault();
@@ -90,38 +124,41 @@ const Page = () => {
     else {
       guess = redGuess;
     }
-    console.log('guess is ', guess)
 
     fetch(`http://localhost:5000/${color}`, {
       method: 'POST',
       body: JSON.stringify(guess),
       mode: 'cors',
     })
-      .then(resp => resp.json())
-      .then(data => {
-        const { answer } = data;
+    .then(resp => resp.json())
+    .then(data => {
+      const { answer } = data;
 
-        if (answer) {
-          if (color === 'blue') {
-            setBlueValidation('Correct!')
-          }
-          else {
-            setRedValidation('Correct!')
-          }
+      if (answer) {
+        if (color === 'blue') {
+          setBlueValidation('Correct!')
         }
-
         else {
-          if (color === 'blue') {
-            setBlueValidation('Incorrect :(');
-          }
-          else {
-            setRedValidation('Incorrect :(');
-          }
-        }    
-      })
-      .catch(err => console.log('err ', err));
+          setRedValidation('Correct!')
+        }
+      }
 
+      else {
+        if (color === 'blue') {
+          setBlueValidation('Incorrect :(');
+        }
+        else {
+          setRedValidation('Incorrect :(');
+        }
+      }    
+    })
+    .catch(err => console.log('err ', err));
   }
+
+  // useEffect(() => {
+  //   console.log('rendering')
+  //   inHintMode()
+  // }, []);
 
   return (
     <div className={s.page}>
@@ -129,26 +166,36 @@ const Page = () => {
         <img src='boggleLogo.jpeg' alt='Boggle' />
         <div className={s.dark}><span>&nbsp;after dark</span></div>
       </div>
-      <div className={s.prompt}>Play a {TOTAL_SCORE} point game</div>
-      <div className={s.board}>
-        <div>
-          <Boggle showHint={showHint} />
-        </div>
-        <div>
-          <div className={s.wordForm}>
-            <WordForm onInputChange={onInputChange} guess={guess} onSubmit={onSubmit} validation={validation} />
+        <div className={s.prompt}>Play a {TOTAL_SCORE} point game</div>
+      <div className={s.alignment}>
+        <div className={s.hints}>
+          <button className={s.btn} onClick={toggleHintMode}>{hintMode ? 'Hide Hint Mode' : 'Show Hint Mode'}</button>
+          <div className={s.dashes}>
+            {hintMode && hints.map((hint, i) =><div key={i}>{hint}</div>)}
           </div>
-          <Paper correctWords={correctWords} score={score} />
+        </div>
+        <div className={s.board}>
+          <div>
+            <Boggle showSecondHint={showSecondHint} />
+          </div>
+          <div>
+            <div className={s.wordForm}>
+              <WordForm onInputChange={onInputChange} guess={guess} onSubmit={onSubmit} validation={validation} />
+            </div>
+            <Paper correctWords={correctWords} score={score} />
+          </div>
         </div>
       </div>
-      {showHint && 
+      {showSecondHint && 
         <SecondBoggleHint 
           blueGuess={blueGuess} 
           redGuess={redGuess} 
           blueValidation={blueValidation} 
           redValidation={redValidation} 
           onSecondHintSubmit={onSecondHintSubmit} 
-          onSecondHintChange={onSecondHintChange} />}
+          onSecondHintChange={onSecondHintChange} 
+        />
+      }
     </div>
   );
 }

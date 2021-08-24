@@ -37,3 +37,32 @@
 .page {
     margin-bottom: 100px;
 }
+
+.alignment {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.hints {
+    margin-right: 100px;
+}
+
+.btn {
+    padding: 5px 8px;
+    background-color: #094296;
+    color: white;
+    font-weight: bold;
+    border: #094296 solid 3px;
+    border-radius: 5px;
+    width: 140px;
+    transform: scale(1);
+}
+
+.dashes {
+    margin-top: 20px;
+}
+
+.btn:active {
+    transform: scale(0.95) perspective(800px);
+}

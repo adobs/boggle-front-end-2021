@@ -56,6 +56,9 @@ const Page = () => {
       method: 'POST',
       body: JSON.stringify(guess.toLowerCase().trim()),
       mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      } 
     })
       .then(resp => resp.json())
       .then(data => {
@@ -90,6 +93,9 @@ const Page = () => {
       method: 'POST',
       body: JSON.stringify(correctWords),
       mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      }
     })
       .then(resp => resp.json())
       .then(data => {
@@ -125,6 +131,9 @@ const Page = () => {
       method: 'POST',
       body: JSON.stringify(guess),
       mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*'
+      }    
     })
     .then(resp => resp.json())
     .then(data => {

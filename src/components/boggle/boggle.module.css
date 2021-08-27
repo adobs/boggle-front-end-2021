@@ -16,8 +16,20 @@
   color: blue;   
 }
 
+.cubeBlueDarkMode {
+  color: blue;
+}
+
 .cubeRed {
   color: red;
+}
+
+.cubeRedDarkMode {
+  color: red;
+}
+
+.cubePurpleDarkMode {
+  color: purple;
 }
 
 .cubePurple {
@@ -34,4 +46,13 @@
   font-weight: bold;
 }
 
+.cubeDarkMode, .cubeBlueDarkMode, .cubeRedDarkMode, .cubePurpleDarkMode {
+  padding: 10px 25px 5px 25px;
+  border-radius: 5px;
+  border: white 2px solid;
+  margin: 5px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 70px;
+  font-weight: bold;
+}
 

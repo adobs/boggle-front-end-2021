@@ -12,3 +12,24 @@
 .redInput {
   width: 300px;
 }
+
+.input {
+  color: black;
+}
+
+.darkModeInput {
+  color: white;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 20px;
+  width: 400px;
+  padding-top: 30px;
+}
+
+.darkModeValidation {
+  color: white;
+}

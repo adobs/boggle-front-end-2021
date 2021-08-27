@@ -35,7 +35,7 @@
 }
 
 .page {
-    margin-bottom: 100px;
+    padding-bottom: 100px;
 }
 
 .alignment {
@@ -60,9 +60,30 @@
 }
 
 .dashes {
-    margin-top: 20px;
+    padding-top: 20px;
 }
 
 .btn:active {
     transform: scale(0.95) perspective(800px);
+}
+
+.darkMode {
+    background-color: black;
+}
+
+.darkModeDashes {
+    color: white;
+}
+
+.darkModePrompt {
+    color: #325d9c;
+    font-size: 40px;    
+    font-family: Helvetica, Arial, sans-serif;
+    text-align: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.darkModeBoard {
+    color: white;
 }

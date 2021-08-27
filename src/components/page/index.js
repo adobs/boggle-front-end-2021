@@ -49,14 +49,10 @@ const Page = () => {
     return false;
   };
 
-  // useEffect(() => {
-
-  // }, [correctWords])
-
   const onSubmit = (evt) => {
     evt.preventDefault();
 
-    fetch('http://localhost:5000/boggle', {
+    fetch('https://boggle-api-2021.herokuapp.com/boggle', {
       method: 'POST',
       body: JSON.stringify(guess.toLowerCase().trim()),
       mode: 'cors',
@@ -80,14 +76,17 @@ const Page = () => {
         setScore(score + points);
       })
       .catch(err => console.log('err ', err));
-        
+    
+    console.log('score', score);
+    console.log('total score', TOTAL_SCORE)
     if (score === TOTAL_SCORE) {
+      console.log('score is total score')
       setShowSecondHint(true);
     }
   }
 
   const inHintMode = useCallback(() => {
-    fetch('http://localhost:5000/hint', {
+    fetch('https://boggle-api-2021.herokuapp.com/hint', {
       method: 'POST',
       body: JSON.stringify(correctWords),
       mode: 'cors',
@@ -96,6 +95,7 @@ const Page = () => {
       .then(data => {
         const { hints } = data;
         setHints(hints);
+        console.log(data)
       });
   }, [correctWords]);
 
@@ -121,7 +121,7 @@ const Page = () => {
       guess = redGuess;
     }
 
-    fetch(`http://localhost:5000/${color}`, {
+    fetch(`https://boggle-api-2021.herokuapp.com/${color}`, {
       method: 'POST',
       body: JSON.stringify(guess),
       mode: 'cors',
@@ -153,33 +153,40 @@ const Page = () => {
 
   useEffect(() => {
     inHintMode();
-  // eslint-disable-next-line no-use-before-define
   }, [correctWords, inHintMode]);
 
+  useEffect(() => {
+    if (score === TOTAL_SCORE) {
+      setShowSecondHint(true);
+    }
+  }, [score]);
+
   return (
-    <div className={s.page}>
+    <div className={hintMode ? s.page + ' ' + s.darkMode : s.page}>
       <div className={s.header}>
-        <img src='boggleLogo.jpeg' alt='Boggle' />
+        <img src='boggleLogo.png' alt='Boggle' />
         <div className={s.dark}><span>&nbsp;after dark</span></div>
       </div>
-        <div className={s.prompt}>Play a {TOTAL_SCORE} point game</div>
+        <div className={hintMode ? s.darkModePrompt : s.prompt}>Play a {TOTAL_SCORE} point game</div>
       <div className={s.alignment}>
         <div className={s.hints}>
-          <button className={s.btn} onClick={toggleHintMode}>{hintMode ? 'Hide Hint Mode' : 'Show Hint Mode'}</button>
-          <div className={s.dashes}>
-            {hintMode && hints.map((hint, i) =><div key={i}>{hint}</div>)}
+          {hintMode && !showSecondHint && <button className={s.btn} onClick={toggleHintMode}>{hintMode ? 'Hide Hint Mode' : 'Show Hint Mode'}</button>}
+          <div className={hintMode ? s.darkModeDashes : s.dashes}>
+            {hintMode && !showSecondHint && hints.map((hint, i) =><div key={i}>{hint}</div>)}
           </div>
         </div>
-        <div className={s.board}>
+        <div className={hintMode ? s.board + ' ' + s.darkModeBoard : s.board}>
           <div>
-            <Boggle showSecondHint={showSecondHint} />
+            <Boggle showSecondHint={showSecondHint} hintMode={hintMode}/>
           </div>
-          <div>
-            <div className={s.wordForm}>
-              <WordForm onInputChange={onInputChange} guess={guess} onSubmit={onSubmit} validation={validation} />
+          {!showSecondHint && (
+            <div>
+              <div className={s.wordForm}>
+                <WordForm onInputChange={onInputChange} guess={guess} onSubmit={onSubmit} validation={validation} />
+              </div>
+              <Paper correctWords={correctWords} score={score} />
             </div>
-            <Paper correctWords={correctWords} score={score} />
-          </div>
+          )}
         </div>
       </div>
       {showSecondHint && 

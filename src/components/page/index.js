@@ -99,7 +99,7 @@ const Page = () => {
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT"
       }
     })
-      .then(resp => resp.json())
+      // .then(resp => resp.json())
       .then(data => {
         const { hints } = data;
         setHints(hints);

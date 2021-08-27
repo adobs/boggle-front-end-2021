@@ -92,14 +92,14 @@ const Page = () => {
     fetch('https://boggle-api-2021.herokuapp.com/hint', {
       method: 'POST',
       body: JSON.stringify(correctWords),
-      mode: 'no-cors',
+      mode: 'cors',
       headers: {
         'Access-Control-Allow-Origin':'*',
         'Access-Control-Allow-Headers': 'X-Token',
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT"
       }
     })
-      // .then(resp => resp.json())
+      .then(resp => resp.json())
       .then(data => {
         const { hints } = data;
         setHints(hints);

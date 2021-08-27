@@ -170,7 +170,7 @@ const Page = () => {
         <div className={hintMode ? s.darkModePrompt : s.prompt}>Play a {TOTAL_SCORE} point game</div>
       <div className={s.alignment}>
         <div className={s.hints}>
-          {hintMode && !showSecondHint && <button className={s.btn} onClick={toggleHintMode}>{hintMode ? 'Hide Hint Mode' : 'Show Hint Mode'}</button>}
+          <button className={s.btn} onClick={toggleHintMode}>{hintMode ? 'Hide Hint Mode' : 'Show Hint Mode'}</button>
           <div className={hintMode ? s.darkModeDashes : s.dashes}>
             {hintMode && !showSecondHint && hints.map((hint, i) =><div key={i}>{hint}</div>)}
           </div>

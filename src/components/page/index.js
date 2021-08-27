@@ -94,7 +94,7 @@ const Page = () => {
       body: JSON.stringify(correctWords),
       mode: 'cors',
       headers: {
-        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Origin':'https://serene-jackson-2e4440.netlify.app/',
         'Access-Control-Allow-Headers': 'X-Token',
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT",
         'Access-Control-Request-Headers': 'origin'

@@ -92,13 +92,13 @@ const Page = () => {
     fetch('https://boggle-api-2021.herokuapp.com/hint', {
       method: 'POST',
       body: JSON.stringify(correctWords),
-      mode: 'no-cors',
-      // headers: {
-      //   'Access-Control-Allow-Origin':'*',
-      //   'Access-Control-Allow-Headers': 'X-Token',
-      //   "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT",
-      //   'Access-Control-Request-Headers': 'origin'
-      // }
+      mode: 'cors',
+      headers: {
+        'Access-Control-Allow-Origin':'*',
+        'Access-Control-Allow-Headers': 'X-Token',
+        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT",
+        'Access-Control-Request-Headers': 'origin'
+      }
     })
       .then(resp => resp.json())
       .then(data => {

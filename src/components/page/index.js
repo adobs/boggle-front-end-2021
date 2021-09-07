@@ -52,7 +52,7 @@ const Page = () => {
   const onSubmit = (evt) => {
     evt.preventDefault();
 
-    fetch('https://boggle-api-2021.herokuapp.com/boggle', {
+    fetch('https://boggle-api-2021-2.herokuapp.com/boggle', {
       method: 'POST',
       body: JSON.stringify(guess.toLowerCase().trim()),
       mode: 'cors',
@@ -75,6 +75,9 @@ const Page = () => {
         }    
 
         setValidation('Correct!');
+        if (validation !== '\n') {
+          setValidation('\n');
+        }
         setCorrectWords([...correctWords, [guess, points]]);
         setScore(score + points);
       })
@@ -89,16 +92,16 @@ const Page = () => {
   }
 
   const inHintMode = useCallback(() => {
-    fetch('https://boggle-api-2021.herokuapp.com/hint', {
+    fetch('https://boggle-api-2021-2.herokuapp.com/hint', {
+    // fetch('https://localhost:5000/hint', {
       method: 'POST',
       body: JSON.stringify(correctWords),
       mode: 'cors',
-      headers: {
-        'Access-Control-Allow-Origin': 'https://serene-jackson-2e4440.netlify.app/',
-        'Access-Control-Allow-Headers': 'X-Token',
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT",
-        'Access-Control-Request-Headers': 'origin, x-requested-with'
-      }
+      // headers: {
+      //   'Access-Control-Allow-Headers': 'X-Token',
+      //   "Access-Control-Allow-Methods": "GET, POST, OPTIONS, PUT",
+      //   'Access-Control-Request-Headers': 'origin, x-requested-with'
+      // }
     })
       .then(resp => resp.json())
       .then(data => {
@@ -130,7 +133,7 @@ const Page = () => {
       guess = redGuess;
     }
 
-    fetch(`https://boggle-api-2021.herokuapp.com/${color}`, {
+    fetch(`http://boggle-api-2021-2.herokuapp.com/${color}`, {
       method: 'POST',
       body: JSON.stringify(guess),
       mode: 'cors',
